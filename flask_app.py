@@ -8,8 +8,8 @@ from lightgbm import LGBMClassifier
 from sklearn.model_selection import GridSearchCV
 
 app = Flask(__name__)
-modelPath = u'/home/CodingGroot/flask-ml-model-deploy/model.pkl'
-smodelPath = u'/home/CodingGroot/flask-ml-model-deploy/savedmodel.pkl'
+modelPath = 'model.pkl'
+smodelPath = 'savedmodel.pkl'
 model = pickle.load(open(modelPath, 'rb'))
 #savedmodel = joblib.load(smodelPath)
 print(sys.path)
