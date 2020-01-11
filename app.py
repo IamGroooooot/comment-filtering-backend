@@ -92,20 +92,6 @@ lemmatizer = WordNetLemmatizer()
 tokenizer = TweetTokenizer()
 analyzer = SentimentIntensityAnalyzer()
 
-# 여러 분류의 toxic feature를 istoxic으로 변환하는 함수
-def cat_istoxic(count):
-    if count < 1:
-        return 0
-    else:
-        return 1    
-    
-def get_istoxic(df):
-    df['sum_of_toxic'] = df['toxic'] + df['severe_toxic'] + df['obscene'] + df['threat'] + df['insult'] + df['identity_hate']
-    df['is_toxic'] = df['sum_of_toxic'].apply(lambda x: cat_istoxic(x))
-    df = df.drop(['toxic', 'severe_toxic', 'obscene', 'threat', 'insult', 'identity_hate', 'sum_of_toxic'], axis=1)
-
-    return df
-
 # 단어, 문장 등을 count하여 feature로 넣는 함수 
 def get_features_count(df):
     df['count_of_sent'] = df['comment_text'].apply(lambda x: len(re.findall('\n', str(x)))+1)
@@ -173,39 +159,47 @@ def get_sent_scores(df):
     return df
 
 # 전처리 종합 함수
-def preprocessing(df):
-    get_istoxic(df)
+def preprocessing(comment):
+    df = pd.DataFrame({'comment_text':comment})
     get_features_count(df)
     get_clean_comment(df)
     get_sent_scores(df)
     
-    df = df.drop(['id', 'comment_text'], axis=1)
+    df = df.drop(['comment_text'], axis=1)
     
     return df
 
+
+# server
+
 @app.route('/')
 def home():
-    print("Home진입")
+    #print("Home진입")
     #return "hello"
     return render_template('index.html')
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    savedmodel.predict()
+    requestedValues = request.form.values()
+    # 1 악플, 0 안플아님
+    isToxic = int(savedmodel.predict(prepocessing(requestedValues[1])))
 
+    isToxicText = ""
+    if isToxic == 1:
+        isToxicText = "악플입니다"
+    else:
+        isToxicText = "악플이 아닙니다"
 
-    int_features = [int(x) for x in request.form.values()]
-    final_features = [np.array(int_features)]
-    prediction = model.predict(final_features)
-
-    output = round(prediction[0], 2)
-
-    return render_template('index.html', prediction_text='댓글이 악성일 확률 {}%'.format(output*100))
+    #int_features = [int(x) for x in request.form.values()]
+    #final_features = [np.array(int_features)]
+    #prediction = model.predict(final_features)
+    #output = round(prediction[0], 2)
+    
+    return render_template('index.html', prediction_text='댓글이 악성일 확률 {}%'.format(output*100), prediction_result='이 댓글은 '+ isToxicText)
 
 @app.route('/results', methods=['POST'])
 def results():
     print("result 실행 됨------------------")
-    print("결과: " + str(request))
     #print("결과: " + str(list(request.get_json(force=True).values())))
     try:
         data = request.get_json(force=True)
@@ -215,11 +209,19 @@ def results():
     else:
         print("json 파싱 성공")
 
-    prediction = model.predict([np.array(list(data.values()))])
+    requestedValues = list(data.values())
+    isToxic = int(savedmodel.predict(prepocessing(requestedValues[1])))
 
-    output = prediction[0]
+    isToxicText = ""
+    if isToxic == 1:
+        isToxicText = "악플입니다"
+    else:
+        isToxicText = "악플이 아닙니다"
+
+    #prediction = model.predict([np.array(list(data.values()))])
+    #output = prediction[0]
     print("----------------------")
-    return jsonify(output)
+    return jsonify(isToxicText)
 
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
