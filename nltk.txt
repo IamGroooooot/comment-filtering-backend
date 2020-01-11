@@ -1,0 +1,3 @@
+wordnet
+vader_lexicon
+stopwords

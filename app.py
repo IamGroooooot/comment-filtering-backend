@@ -22,9 +22,11 @@ smodelPath = 'savedmodel.pkl'
 #model = pickle.load(open(modelPath, 'rb'))
 savedmodel = joblib.load(smodelPath)
 
+''' nltk.txt에 명시하면 자동으로 다운함
 nltk.download('stopwords')
 nltk.download('vader_lexicon')
 nltk.download('wordnet')
+'''
 
 # 축약어 모음
 APPOS = {
