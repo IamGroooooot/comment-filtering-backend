@@ -20,7 +20,7 @@ app = Flask(__name__)
 #modelPath = 'model.pkl'
 smodelPath = 'savedmodel.pkl'
 #model = pickle.load(open(modelPath, 'rb'))
-savedmodel = pickle.load(open(smodelPath, 'rb'))
+savedmodel = joblib.load(smodelPath)
 
 nltk.download('stopwords')
 nltk.download('vader_lexicon')
