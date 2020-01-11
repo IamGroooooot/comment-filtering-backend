@@ -1,12 +1,23 @@
 import numpy as np
 from flask import Flask, request, jsonify, render_template
 import pickle
+import sys
+from sklearn.externals import joblib
+import pandas as pd
+from lightgbm import LGBMClassifier
+from sklearn.model_selection import GridSearchCV
 
 app = Flask(__name__)
-model = pickle.load(open('model.pkl', 'rb'))
+modelPath = u'/home/CodingGroot/flask-ml-model-deploy/model.pkl'
+smodelPath = u'/home/CodingGroot/flask-ml-model-deploy/savedmodel.pkl'
+model = pickle.load(open(modelPath, 'rb'))
+#savedmodel = joblib.load(smodelPath)
+print(sys.path)
 
 @app.route('/')
 def home():
+    print("Home진입")
+    #return "hello"
     return render_template('index.html')
 
 @app.route('/predict', methods=['POST'])
@@ -37,7 +48,3 @@ def results():
     output = prediction[0]
     print("----------------------")
     return jsonify(output)
-    
-
-if __name__ == "__main__":
-    app.run(port='5000' ,debug=True)
