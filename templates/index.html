@@ -17,7 +17,7 @@
 
       <!-- Main Input For Receiving Query to our ML -->
       <form action="{{ url_for('predict')}}"method="post">
-        <input type="range" name="필터 정도" placeholder="정도" required="required" min="0" max="1" />
+        <input type="range" name="필터 정도" placeholder="정도" required="required" min="0" max="1" step="0.1" />
         <input type="text" name="욕" placeholder="욕" required="required" />
 
         <button type="submit" class="btn btn-primary btn-block btn-large">Predict Toxic Comment</button>
