@@ -182,7 +182,7 @@ def home():
 def predict():
     requestedValues = request.form.values()
     # 1 악플, 0 안플아님
-    isToxic = int(savedmodel.predict(prepocessing(requestedValues[1])))
+    isToxic = int(savedmodel.predict(  preprocessing(requestedValues[1])  ))
 
     isToxicText = ""
     if isToxic == 1:
@@ -210,7 +210,7 @@ def results():
         print("json 파싱 성공")
 
     requestedValues = list(data.values())
-    isToxic = int(savedmodel.predict(prepocessing(requestedValues[1])))
+    isToxic = int(savedmodel.predict(  preprocessing(requestedValues[1])  ))
 
     isToxicText = ""
     if isToxic == 1:
