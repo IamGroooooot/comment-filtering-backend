@@ -187,7 +187,7 @@ def home():
 def predict():
     requestedValues = request.form.values()
     # 1 악플, 0 안플아님
-    isToxic = savedmodel.predict(preprocessing(requestedValues[1]))[0]
+    isToxic = savedmodel.predict(preprocessing("fuck"))[0]
 
     isToxicText = ""
     if isToxic == 1:
