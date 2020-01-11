@@ -18,13 +18,12 @@
       <!-- Main Input For Receiving Query to our ML -->
       <form action="{{ url_for('predict')}}"method="post">
         <input type="text" name="필터 정도" placeholder="정도" required="required" />
-        <input type="text" name="욕" placeholder="욕" required="required" />
+        <input type="text" name="욕1" placeholder="욕1" required="required" />
+        <input type="text" name="욕2" placeholder="욕2" required="required" />
 
         <button type="submit" class="btn btn-primary btn-block btn-large">Predict Toxic Comment</button>
       </form>
-      <br>
-      <br>
-      {{ prediction_result }}
+
       <br>
       <br>
       {{ prediction_text }}
