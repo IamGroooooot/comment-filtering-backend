@@ -15,11 +15,10 @@ from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 from nltk.tokenize import TweetTokenizer
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from imblearn.over_sampling import SMOTE
 
 app = Flask(__name__)
-#modelPath = 'model.pkl'
 smodelPath = 'savedmodel.pkl'
-#model = pickle.load(open(modelPath, 'rb'))
 savedmodel = joblib.load(smodelPath)
 
 ''' nltk.txt에 명시하면 자동으로 다운함
@@ -179,8 +178,6 @@ def preprocessing(comment):
 
 @app.route('/')
 def home():
-    #print("Home진입")
-    #return "hello"
     return render_template('index.html')
 
 @app.route('/predict', methods=['POST'])
@@ -191,20 +188,20 @@ def predict():
 
     isToxicText = ""
     if isToxic == 1:
-        isToxicText = "악플입니다"
+        isToxicText = "악플입니다."
     else:
-        isToxicText = "악플이 아닙니다"
+        isToxicText = "악플이 아닙니다."
 
     #int_features = [int(x) for x in request.form.values()]
     #final_features = [np.array(int_features)]
     #prediction = model.predict(final_features)
     #output = round(prediction[0], 2)
     
-    return render_template('index.html', prediction_text='댓글이 얼마나 악성(임시로 백)? {}%'.format(100), prediction_result = '이 댓글은 '+isToxicText)
+    return render_template('index.html', prediction_text='댓글이 얼마나 악성인가(임시로 백)? {}%'.format(100), prediction_result = '이 댓글은 '+isToxicText)
 
 @app.route('/results', methods=['POST'])
 def results():
-    print("result 실행 됨------------------")
+    print(">>>>> POST를 명령 받았습니당!!")
     #print("결과: " + str(list(request.get_json(force=True).values())))
     try:
         data = request.get_json(force=True)
@@ -212,7 +209,7 @@ def results():
         print("json 파싱 실패")
         return jsonify(-1)
     else:
-        print("json 파싱 성공")
+        print("파싱 성공")
 
     requestedValues = list(data.values())
     print(">>>> comment: "+requestedValues[1])
@@ -220,13 +217,13 @@ def results():
 
     isToxicText = ""
     if isToxic == 1:
-        isToxicText = "악플입니다"
+        isToxicText = "악플입니다."
     else:
-        isToxicText = "악플이 아닙니다"
+        isToxicText = "악플이 아닙니다."
 
     #prediction = model.predict([np.array(list(data.values()))])
     #output = prediction[0]
-    print("----------------------")
+    print(">>>>>----------------------")
     return jsonify(isToxicText)
 
 if __name__ == '__main__':
