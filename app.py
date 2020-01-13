@@ -19,6 +19,7 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 app = Flask(__name__)
 smodelPath = 'savedmodel.pkl'
 savedmodel = joblib.load(smodelPath)
+tfidf_vect = joblib.load('tfidf.pkl')
 
 ''' nltk.txt에 명시하면 자동으로 다운함
 nltk.download('stopwords')
