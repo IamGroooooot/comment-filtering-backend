@@ -568,7 +568,6 @@ def results():
     #print("결과: " + str(list(request.get_json(force=True).values())))
     try:
         data = request.get_json(force=True)
-        swearing_power = float(preprocessing(requestedValues[1])[1][0])+1
     except:
         print("json 파싱 실패")
         return jsonify(-1)
@@ -578,6 +577,8 @@ def results():
     requestedValues = list(data.values())
     print(">>>>> comment: " + requestedValues[1])
     isToxic = savedmodel.predict(preprocessing(requestedValues[1])[0])[0]
+    swearing_power = float(preprocessing(requestedValues[1])[1][0])+1
+
     output = 0
 
     if(swearing_power < 0.0):
