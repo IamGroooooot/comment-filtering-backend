@@ -212,13 +212,15 @@ def results():
         print("파싱 성공")
 
     requestedValues = list(data.values())
-    print(">>>>> comment: "+requestedValues[1])
+    print(">>>>> comment: " + requestedValues[1])
     isToxic = savedmodel.predict(preprocessing(requestedValues[1]))
-
+    output = 0
+    if isToxic == 1:
+        output = 1  
     #prediction = model.predict([np.array(list(data.values()))])
     #output = prediction[0]
     print(">>>>> ----------------------")
-    return jsonify(isToxic)
+    return jsonify(output)
 
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
