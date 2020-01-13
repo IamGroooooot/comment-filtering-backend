@@ -547,7 +547,7 @@ def predict():
     requestedValues = list(request.form.values())
     # 1 악플, 0 안플아님
     isToxic = savedmodel.predict(preprocessing(requestedValues[1])[0])[0]
-    swearing_power = preprocessing(requestedValues[1])[1]+1
+    swearing_power = float(preprocessing(requestedValues[1])[1][0])+1
     isToxicText = ""
     if isToxic == 1:
         isToxicText = "악플입니다."
@@ -568,7 +568,7 @@ def results():
     #print("결과: " + str(list(request.get_json(force=True).values())))
     try:
         data = request.get_json(force=True)
-        swearing_power = preprocessing(requestedValues[1])[1]+1
+        swearing_power = float(preprocessing(requestedValues[1])[1][0])+1
     except:
         print("json 파싱 실패")
         return jsonify(-1)
