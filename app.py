@@ -212,19 +212,13 @@ def results():
         print("파싱 성공")
 
     requestedValues = list(data.values())
-    print(">>>> comment: "+requestedValues[1])
+    print(">>>>> comment: "+requestedValues[1])
     isToxic = savedmodel.predict(preprocessing(requestedValues[1]))
-
-    isToxicText = ""
-    if isToxic == 1:
-        isToxicText = "악플입니다."
-    else:
-        isToxicText = "악플이 아닙니다."
 
     #prediction = model.predict([np.array(list(data.values()))])
     #output = prediction[0]
-    print(">>>>>----------------------")
-    return jsonify(isToxicText)
+    print(">>>>> ----------------------")
+    return jsonify(isToxic)
 
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
