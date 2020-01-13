@@ -584,10 +584,10 @@ def results():
     if(swearing_power < 0.0):
         swearing_power = 0.0
 
-    if isToxic == 1:
-        output = 1+swearing_power*10 
-    else:
-        output = 0+swearing_power*10
+    if isToxic == 1: # 1이면 악플
+        output = 1*10+swearing_power
+    else: # 2이면 악플 아님
+        output = 2*10+swearing_power
     #prediction = model.predict([np.array(list(data.values()))])
     #output = prediction[0]
     print(">>>>> ----------------------")
