@@ -514,7 +514,7 @@ def clean_useless(comment):
     
     return(clean_sent)
 
-def preprocessing_test(comment):
+def preprocessing(comment):
     test_df = pd.DataFrame({'comment_text':[clean_useless(comment)]})
     
     # bad word counting
