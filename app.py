@@ -560,7 +560,7 @@ def predict():
     #prediction = model.predict(final_features)
     #output = round(prediction[0], 2)
     
-    return render_template('index.html', prediction_text='댓글이 얼마나 악성인가요? {0:.2f}'.format(swearing_power), prediction_result = '이 댓글은 '+isToxicText)
+    return render_template('index.html', prediction_text='댓글이 얼마나 악성인가요? {0:.2f}'.format(swearing_power*100.0/3.6), prediction_result = '이 댓글은 '+isToxicText)
 
 @app.route('/results', methods=['POST'])
 def results():
